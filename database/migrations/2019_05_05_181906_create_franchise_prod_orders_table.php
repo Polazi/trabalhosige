@@ -15,6 +15,8 @@ class CreateFranchiseProdOrdersTable extends Migration
     {
         Schema::create('franchise_prod_orders', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->bigInteger('franchise_orders_id')->unsigned();
+            $table->foreign('franchise_orders_id')->references('id')->on('franchises_orders');
             $table->bigInteger('product_id')->unsigned();
             $table->foreign('product_id')->references('id')->on('products');
             $table->timestamps();

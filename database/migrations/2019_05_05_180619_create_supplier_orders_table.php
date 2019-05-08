@@ -15,6 +15,7 @@ class CreateSupplierOrdersTable extends Migration
     {
         Schema::create('supplier_orders', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->timestamp('deliver_date');
             $table->bigInteger('supplier_id')->unsigned();
             $table->foreign('supplier_id')->references('id')->on('suppliers'); 
             $table->timestamps();

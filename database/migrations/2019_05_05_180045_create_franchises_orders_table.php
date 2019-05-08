@@ -15,6 +15,7 @@ class CreateFranchisesOrdersTable extends Migration
     {
         Schema::create('franchises_orders', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->timestamp('deliver_date');
             $table->bigInteger('franchise_id')->unsigned();
             $table->foreign('franchise_id')->references('id')->on('franchises'); 
             $table->timestamps();
