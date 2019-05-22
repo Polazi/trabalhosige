@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\FranchiseOrder;
 use App\FranchiseProdOrder;
+use Illuminate\Support\Facades\DB;
+
 
 class FranchiseOrdersController extends Controller
 {
@@ -36,9 +38,10 @@ class FranchiseOrdersController extends Controller
      */
     public function store(Request $request)
     {
-        $options = $request->get('options');
+        $options = json_decode($request->get('options'));
+        $prods = json_decode($request->get('prods'));
 
-        dd($options);
+        //dd($options);
         /* $validatedData = $request->validate([
             'razao_social'       => 'required',
             'cnpj'      => 'required|numeric',
@@ -52,13 +55,16 @@ class FranchiseOrdersController extends Controller
             $order = FranchiseOrder::create([
                 'deliver_date' => $options->deliver_date,
                 'franchise_id' => $options->franchise_id,
+                'store_id' => $options->store_id
             ]);
 
-            $prodorder = FranchiseProdOrder::create([
-                'franchise_orders_id' => $order->id,
-                
-            ]);
-
+            foreach($prods as $key => $value){
+                $prodorder = FranchiseProdOrder::create([
+                    'franchise_orders_id' => $order->id,
+                    'product_id' => $value->prod_id,
+                    'quantidade' => $value->quantidade
+                ]);
+            }
 
         }catch(\Exception $e){
 
@@ -75,7 +81,7 @@ class FranchiseOrdersController extends Controller
         return response()->json([
             'code' => 201,
             'message' => 'Registro gravado com sucesso',
-            'supplier' => $supplier
+            'order' => $order
         ], 201);
     }
 

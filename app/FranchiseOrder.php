@@ -6,5 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class FranchiseOrder extends Model
 {
-    private $table = "franchise_orders";
+    protected $table = "franchises_orders";
+
+    protected $fillable = ['deliver_date', 'franchise_id', 'store_id'];
 }
