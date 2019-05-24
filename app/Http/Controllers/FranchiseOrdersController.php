@@ -93,7 +93,25 @@ class FranchiseOrdersController extends Controller
      */
     public function show($id)
     {
-        //
+        $final_value = 0;
+        $pedido = FranchiseOrder::find($id);
+        $prod = DB::table('franchise_prod_orders')
+        ->join('products', 'products.id', '=', 'franchise_prod_orders.product_id')
+        ->select('franchise_orders_id', 'product_id', 'quantidade', 'products.unity_value')
+        ->where('franchise_orders_id', $id)
+        ->get();
+
+        foreach ($prod as $key => $value) {
+            $final_value += $value->unity_value * $value->quantidade;
+        }
+        
+        return response()->json([
+            'code' => 200,
+            'message' => '',
+            'items' => $pedido,
+            'prod' => $prod,
+            'final_value' => $final_value
+        ], 200);
     }
 
     /**
