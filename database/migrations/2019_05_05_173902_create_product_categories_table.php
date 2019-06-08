@@ -20,7 +20,7 @@ class CreateProductCategoriesTable extends Migration
         });
     }
 
-    //Bolsonaro sucks
+    //Bolsonaro sucks 
     /**
      * Reverse the migrations.
      *
