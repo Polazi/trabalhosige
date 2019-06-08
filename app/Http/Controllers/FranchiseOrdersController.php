@@ -79,10 +79,10 @@ class FranchiseOrdersController extends Controller
         DB::commit();
 
         return response()->json([
-            'code' => 201,
+            'code' => 200,
             'message' => 'Registro gravado com sucesso',
             'order' => $order
-        ], 201);
+        ], 200);
     }
 
     /**
@@ -94,7 +94,17 @@ class FranchiseOrdersController extends Controller
     public function show($id)
     {
         $final_value = 0;
-        $pedido = FranchiseOrder::find($id);
+        //$pedido = FranchiseOrder::find($id);
+        $pedido = FranchiseOrder::with('store', 'franchise')->find($id);
+        
+        if(!$pedido){
+            return response()->json([
+                'code' => 200,
+                'message' => 'Pedido não existe',
+                'items' => ''
+            ], 200);
+        }
+
         $prod = DB::table('franchise_prod_orders')
         ->join('products', 'products.id', '=', 'franchise_prod_orders.product_id')
         ->select('franchise_orders_id', 'product_id', 'quantidade', 'products.unity_value')
